@@ -14,28 +14,57 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Role {
+  ADMIN
+  DEVELOPER
+}
+
+model Environment{
+id        String @id @default(cuid())
+name      String
+apiKey    String @unique
+projectId String
+project   Project @relation(fields: [projectId], references: [id])
+flage     FeatureFlag[]
+}
+
+model Project {
+  id           String @id @default(cuid())
+  name         String
+  description  String?
+  websiteUrl   String
+  environments Environment[]
+  user         User[]
+  joinKey       DeveloperJoinKey[]
+  createdAt    DateTime @default(now())
+}
+
 model FeatureFlag {
-  id          String  @id @default(uuid())
-  name        String  @unique
-  description String?
-  type        String  @default("boolean")
-  value       Json?
-  environment String
-  isActive    Boolean @default(true)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  audits      AuditLog[]
+  id            String  @id @default(uuid())
+  key           String  @unique
+  description   String?
+  // value       Json?
+  parentFlagId  String?
+  parentFlag    FeatureFlag? @relation("SubFlags",fields: [parentFlagId],references: [id])
+  subFlags      FeatureFlag[] @relation("SubFlags")
+  value         Boolean @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  audits        AuditLog[]
+  environmentId String
+  environment Environment @relation(fields: [environmentId], references: [id])
 }
 
 model AuditLog {
   id          String @id @default(uuid())
   flagId      String
-  changedBy   String?
+  flag FeatureFlag @relation(fields:[flagId],references: [id])
+  userId String?
+  user User? @relation(fields: [userId],references: [id])
+  action String
   oldValue    Json?
   newValue    Json?
   createdAt   DateTime @default(now())
-
-  FeatureFlag FeatureFlag @relation(fields:[flagId],references: [id])
 }
 
 model Webhook {
@@ -43,4 +72,28 @@ model Webhook {
   url       String
   env       String
   createdAt DateTime @default(now())
+}
+
+model User{
+  id        String @id @default(cuid())
+  email     String @unique
+  password  String
+  role      Role @default(DEVELOPER)
+  projectId String?
+  project   Project? @relation(fields: [projectId], references: [id])
+  auditlog  AuditLog[]
+  joinKey   DeveloperJoinKey[]
+  createdAt DateTime
+}
+
+model DeveloperJoinKey{
+  id        String @id @default(cuid())
+  key       String @unique
+  projectId String
+  project   Project @relation(fields: [projectId],references: [id])
+  userId    String
+  usedBy    User? @relation(fields: [userId],references: [id])
+  createdAt DateTime @default(now())
+  usedAt    DateTime?
+  expiresAt DateTime?
 }
