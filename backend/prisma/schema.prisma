@@ -1,0 +1,46 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "/generated"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model FeatureFlag {
+  id          String  @id @default(uuid())
+  name        String  @unique
+  description String?
+  type        String  @default("boolean")
+  value       Json?
+  environment String
+  isActive    Boolean @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  audits      AuditLog[]
+}
+
+model AuditLog {
+  id          String @id @default(uuid())
+  flagId      String
+  changedBy   String?
+  oldValue    Json?
+  newValue    Json?
+  createdAt   DateTime @default(now())
+
+  FeatureFlag FeatureFlag @relation(fields:[flagId],references: [id])
+}
+
+model Webhook {
+  id        String @id @default(uuid())
+  url       String
+  env       String
+  createdAt DateTime @default(now())
+}
