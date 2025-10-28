@@ -5,7 +5,6 @@ if (process.env.REDIS_URL) {
   redis = new Redis(process.env.REDIS_URL);
   redis.on("error", (e) => {
     console.error("Redis error:", e);
-    // Consider setting redis = null to fallback
   });
 }
 
