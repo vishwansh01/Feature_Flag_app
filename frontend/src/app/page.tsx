@@ -1,15 +1,15 @@
 "use client";
 
-import GreenButton from "@/components/GreenButton";
+import Footer from "@/components/Footer";
+import Hero from "@/components/Hero";
+import NavBar from "@/components/NavBar";
 
 export default function Home() {
   return (
-    <div className="text-text-secondary">
-      Test{" "}
-      <div>
-        <GreenButton onClick={() => {}} extraCss="" buttonText="Sign Up" />
-      </div>
-      <div className="absolute"></div>
+    <div className="flex flex-col justify-between h-screen">
+      <NavBar />
+      <Hero />
+      <Footer />
     </div>
   );
 }
