@@ -4,11 +4,11 @@ import React from "react";
 const SignHero = () => {
   return (
     <section className="w-fit">
-      <h1 className="text-white font-inter text-3xl font-bold w-72 tracking-wide m-4">
+      <h1 className="text-text-secondary font-inter text-3xl w-72 font-bold tracking-wide m-4">
         Join millions worldwide who automate their work using Fluint.
       </h1>
       <div className="mx-2 w-fit">
-        <div className="text-white flex flex-row gap-2 font-light m-2">
+        <div className="text-text-tertiary flex flex-row gap-2 m-2">
           <Image
             src="/icons8-green-tick.png"
             alt="Green Tick"
@@ -17,7 +17,7 @@ const SignHero = () => {
           />
           <div>Easy setup, no coding required</div>
         </div>
-        <div className="text-white flex flex-row gap-2 font-light m-2">
+        <div className="text-text-tertiary flex flex-row gap-2 m-2">
           <Image
             src="/icons8-green-tick.png"
             alt="Green Tick"
@@ -26,7 +26,7 @@ const SignHero = () => {
           />
           <div>Free foreever for core features</div>
         </div>
-        <div className="text-white flex flex-row gap-2 font-light m-2">
+        <div className="text-text-tertiary flex flex-row gap-2 m-2">
           <Image
             src="/icons8-green-tick.png"
             alt="Green Tick"
