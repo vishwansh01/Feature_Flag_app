@@ -1,8 +1,9 @@
+"use client";
 import React from "react";
 
 const SingUpComp = () => {
   return (
-    <div className="border-slate-300 border-2 rounded-xl hover:bg-blue-100 h-2/3 flex flex-col w-1/2 items-center justify-center">
+    <div className="border-slate-300 shadow-2xl border-2 rounded-xl hover:bg-blue-100 h-2/3 flex flex-col w-1/2 items-center justify-center">
       <h1 className="text-3xl font-bold mb-4">How do you want to Sign Up ?</h1>
       <div className="flex w-full items-center justify-center gap-4">
         <div
